@@ -5,6 +5,7 @@ from app.database import engine
 from app import models
 from app.routers import surah, ayah, juz, search
 from app.limiter import limiter
+from fastapi.middleware.cors import CORSMiddleware
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -12,6 +13,13 @@ app = FastAPI(
     title="Quran API",
     description="Hafs an Asim — Uthmanic script Quran API",
     version="0.1.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_headers=["*"],
+    allow_methods=["*"],
 )
 
 app.state.limiter = limiter
