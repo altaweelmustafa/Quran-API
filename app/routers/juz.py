@@ -54,3 +54,15 @@ def get_page(
     return db.query(Ayah).filter(
         Ayah.page_number == page_number
     ).order_by(Ayah.id).offset(pages["offset"]).limit(pages["limit"]).all()
+
+@router.get("/rub/{rub_number}", response_model=list[schemas.AyahBase])
+def get_rub(
+    rub_number: int,
+    db: Session = Depends(get_db),
+    pages: dict = Depends(pagination)
+):
+    if rub_number < 1 or rub_number > 240:
+        raise HTTPException(status_code=400, detail="Rub number must be between 1 and 240")
+    return db.query(Ayah).filter(
+        Ayah.rub_number == rub_number
+    ).order_by(Ayah.id).offset(pages["offset"]).limit(pages["limit"]).all()

@@ -24,6 +24,7 @@ class AyahBase(BaseModel):
     text_uthmani: str
     text_simple: str
     sajdah: bool
+    rub_number: Optional[int] = None
     font_recommendation: str = "KFGQPC Uthman Taha Naskh"
 
     class Config:

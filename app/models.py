@@ -28,6 +28,7 @@ class Ayah(Base):
     ayah_number = Column(Integer, nullable=False)
     juz_number = Column(Integer, nullable=False)
     hizb_number = Column(Integer, nullable=False)
+    rub_number = Column(Integer, nullable=True)
     page_number = Column(Integer, nullable=False)
     text_uthmani = Column(Text, nullable=False)
     text_simple = Column(Text, nullable=False)
