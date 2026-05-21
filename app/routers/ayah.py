@@ -12,12 +12,12 @@ BISMILLAH = "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّح
 router = APIRouter(prefix="/v1/ayah", tags=["Ayah"])
 
 
-@router.get("/{surah_id}/{ayah_number}", response_model=schemas.AyahBase)
-@limiter.limit("60/minute")
-
 def strip_bismillah(text: str) -> str:
     return text.replace(BISMILLAH, "").strip()
 
+
+@router.get("/{surah_id}/{ayah_number}", response_model=schemas.AyahBase)
+@limiter.limit("60/minute")
 def get_ayah(
     request: Request,
     surah_id: int,
@@ -30,14 +30,9 @@ def get_ayah(
         .filter(Ayah.surah_id == surah_id, Ayah.ayah_number == ayah_number)
         .first()
     )
-
     if not ayah:
         raise HTTPException(status_code=404, detail="Ayah not found")
-
     if ayah_number == 1 and surah_id not in (1, 9):
         ayah.text_uthmani = strip_bismillah(ayah.text_uthmani)
         ayah.text_simple = strip_bismillah(ayah.text_simple)
-
     return ayah
-
-
